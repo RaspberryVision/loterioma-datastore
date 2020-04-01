@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.5'
 
 x-cache-from:
   - &api-cache-from
@@ -27,6 +27,8 @@ services:
       # if you develop on Linux, you may use a bind-mounted host directory instead
       # - ./api/var:/srv/api/var:rw
       - dev-certs:/certs:ro,nocopy
+    networks:
+      - my-proxy-net
 
   api:
     build:
@@ -38,6 +40,8 @@ services:
       - php
     volumes:
       - ./api/public:/srv/api/public:ro
+    networks:
+      - my-proxy-net
 
   vulcain:
     image: dunglas/vulcain
@@ -54,6 +58,8 @@ services:
       - target: 443
         published: 8443
         protocol: tcp
+    networks:
+      - my-proxy-net
 
   db:
     image: postgres:12-alpine
@@ -69,6 +75,8 @@ services:
       - target: 5432
         published: 5432
         protocol: tcp
+    networks:
+      - my-proxy-net
 
   mercure:
     image: dunglas/mercure
@@ -88,6 +96,8 @@ services:
       - target: 443
         published: 1337
         protocol: tcp
+    networks:
+      - my-proxy-net
 
   client:
     build:
@@ -108,6 +118,8 @@ services:
       - target: 3000
         published: 443
         protocol: tcp
+    networks:
+      - my-proxy-net
 
   admin:
     build:
@@ -125,6 +137,8 @@ services:
       - target: 3000
         published: 444
         protocol: tcp
+    networks:
+      - my-proxy-net
 
   dev-tls:
     build:
@@ -135,7 +149,14 @@ services:
       - target: 80
         published: 80
         protocol: tcp
+    networks:
+      - my-proxy-net
 
 volumes:
   db-data: {}
   dev-certs: {}
+
+networks:
+  my-proxy-net:
+    external: true
+    name: loterioma-net  
