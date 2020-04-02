@@ -1,6 +1,8 @@
 api_platform:
-    title: Hello API Platform
-    version: 1.0.0
+    title: Loterioma DataStore API
+    version: 0.0.1
+    formats:
+        json: ['application/json']
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
     patch_formats:
