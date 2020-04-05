@@ -22,9 +22,14 @@ class DiceRoundResult
     private $winningNumber;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="datetime")
      */
-    private $balance;
+    private $createdAt;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\DiceRound", mappedBy="result", cascade={"persist", "remove"})
+     */
+    private $diceRound;
 
     public function getId(): ?int
     {
@@ -43,14 +48,32 @@ class DiceRoundResult
         return $this;
     }
 
-    public function getBalance(): ?int
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->balance;
+        return $this->createdAt;
     }
 
-    public function setBalance(int $balance): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->balance = $balance;
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getDiceRound(): ?DiceRound
+    {
+        return $this->diceRound;
+    }
+
+    public function setDiceRound(?DiceRound $diceRound): self
+    {
+        $this->diceRound = $diceRound;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newResult = null === $diceRound ? null : $this;
+        if ($diceRound->getResult() !== $newResult) {
+            $diceRound->setResult($newResult);
+        }
 
         return $this;
     }

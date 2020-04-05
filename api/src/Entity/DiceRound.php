@@ -27,13 +27,7 @@ class DiceRound
     private $game;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Member")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $member;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\DiceRoundResult", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\DiceRoundResult", inversedBy="diceRound", cascade={"persist", "remove"})
      */
     private $result;
 
@@ -65,18 +59,6 @@ class DiceRound
     public function setGame(?Game $game): self
     {
         $this->game = $game;
-
-        return $this;
-    }
-
-    public function getMember(): ?Member
-    {
-        return $this->member;
-    }
-
-    public function setMember(?Member $member): self
-    {
-        $this->member = $member;
 
         return $this;
     }

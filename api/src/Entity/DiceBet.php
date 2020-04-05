@@ -37,6 +37,11 @@ class DiceBet
     private $status;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Member")
+     */
+    private $member;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\DiceRound", inversedBy="bets")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -91,6 +96,18 @@ class DiceBet
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getMember(): ?Member
+    {
+        return $this->member;
+    }
+
+    public function setMember(?Member $member): self
+    {
+        $this->member = $member;
 
         return $this;
     }
