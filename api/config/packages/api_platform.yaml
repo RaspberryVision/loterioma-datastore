@@ -13,6 +13,7 @@ api_platform:
         paths: ['%kernel.project_dir%/src/Entity']
     patch_formats:
         json: ['application/merge-patch+json']
+    path_segment_name_generator: api_platform.path_segment_name_generator.dash
     swagger:
         versions: [3]
     # Mercure integration, remove if unwanted
