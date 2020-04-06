@@ -2,13 +2,20 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      normalizationContext={"groups"={"round:read"}},
+ *      denormalizationContext={"groups"={"round:write"}}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\DiceRoundRepository")
  */
 class DiceRound
@@ -17,27 +24,32 @@ class DiceRound
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"round:read"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Game")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"round:read", "round:write"})
      */
     private $game;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\DiceRoundResult", inversedBy="diceRound", cascade={"persist", "remove"})
+     * @Groups({"round:read", "round:write"})
      */
     private $result;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DiceBet", mappedBy="diceRound")
+     * @ORM\OneToMany(targetEntity="App\Entity\DiceBet", mappedBy="diceRound", cascade={"persist", "remove"})
+    @Groups({"round:read", "round:write"})
      */
     private $bets;
 
     /**
      * @ORM\Column(type="json", nullable=true)
+     * @Groups({"round:read", "round:write"})
      */
     private $parameters = [];
 

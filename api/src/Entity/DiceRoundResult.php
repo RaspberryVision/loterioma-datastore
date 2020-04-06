@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DiceRoundResultRepository")
@@ -18,11 +20,14 @@ class DiceRoundResult
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"round"})
      */
     private $winningNumber;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"round"})
+     * @Assert\Type("datetime")
      */
     private $createdAt;
 
