@@ -147,7 +147,7 @@ services:
       - dev-certs:/certs:rw
     ports:
       - target: 80
-        published: 80
+        published: 81
         protocol: tcp
     networks:
       - my-proxy-net
